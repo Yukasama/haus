@@ -1,0 +1,8 @@
+@startuml Entity
+
+package haus.entity {
+  class Haus <<entity>> <<@Entity>> {
+    @Column @PrimaryColumn() readonly id: number
+    @Column readonly version: number
+  }
+}
