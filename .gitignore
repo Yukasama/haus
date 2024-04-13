@@ -3,6 +3,18 @@
 /node_modules
 /build
 
+# Generierte Dateien
+build
+.extras/dependency-check-report.html
+.extras/doc/projekthandbuch/html/*
+.extras/doc/folien/*.html
+.extras/doc/api/*
+.extras/doc/ReadMe.html
+node-ts
+temp
+tmp
+dependencies.svg
+
 # Logs
 logs
 *.log
