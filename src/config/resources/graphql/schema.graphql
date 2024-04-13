@@ -1,0 +1,125 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Funktionen, um Häuserdaten zu lesen"
+type Query {
+  haeuser(suchkriterien: SuchkriterienInput): [Haus!]
+
+  haus(id: ID!): Haus
+}
+
+"Funktionen, um Häuser neu anzulegen, zu aktualisieren oder zu löschen"
+type Mutation {
+  create(input: HausInput!): CreatePayload
+
+  update(input: HausUpdateInput!): UpdatePayload
+
+  delete(id: ID!): Boolean
+
+  # Mutation, wenn z.B. der Login-Zeitpunkt im IDM-System gespeichert wird
+  login(username: String!, password: String!): LoginResult
+  refresh(refresh_token: String!): LoginResult
+}
+
+"Daten zur Adresse eines Hauses"
+type Adresse {
+  strasse: String!
+  hausnummer: String!
+  plz: String!
+}
+
+"Daten zur Person eines Hauses"
+type Person {
+  vorname: String!
+  nachname: String!
+  eigentuemer: Boolean
+}
+
+"Datenschema zu einem Haus, das gelesen wird"
+type Haus {
+  id: Int!
+  version: Int!
+  hausflaeche: Int!
+  art: Art
+  preis: Float!
+  zumVerkauf: Boolean
+  baudatum: String
+  katalog: String
+  features: [String]
+  adresse: Adresse!
+  personen(short: Boolean): String!
+}
+
+"Enum-Typ für die Art eines Hauses"
+enum Art {
+  BUNGALOW
+  MEHRFAMILIENHAUS
+  REIHENHAUS
+  VILLA
+}
+
+"Suchkriterien für Häuser"
+input SuchkriterienInput {
+  strasse: String
+  hausflaeche: String
+  art: Art
+  zumVerkauf: Boolean
+}
+
+"Daten zur Adresse eines neuen Hauses"
+input AdresseInput {
+  strasse: String!
+  hausnummer: String!
+  plz: String!
+}
+
+"Daten zu den Personen eines Hauses"
+input PersonenInput {
+  vorname: String!
+  nachname: String!
+  eigentuemer: Boolean
+}
+
+"Daten für ein neues Haus"
+input HausInput {
+  art: Art
+  hausflaeche: Int
+  preis: Float
+  zumVerkauf: Boolean
+  baudatum: String
+  katalog: String
+  features: [String]
+  adresse: AdresseInput!
+  personen: [PersonenInput!]
+}
+
+type CreatePayload {
+  id: Int
+}
+
+"Daten für ein zu änderndes Haus"
+input HausUpdateInput {
+  id: ID
+  version: Int
+  art: Art
+  hausflaeche: Int
+  preis: Float
+  zumVerkauf: Boolean
+  baudatum: String
+  katalog: String
+  features: [String]
+}
+
+type UpdatePayload {
+  version: Int
+}
+
+type LoginResult {
+  access_token: String!
+  expires_in: Int!
+  refresh_token: String!
+  refresh_expires_in: Int!
+  roles: [String!]
+}
