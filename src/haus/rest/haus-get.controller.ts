@@ -70,7 +70,6 @@ export interface HaeuserModel {
 }
 
 export class HausQuery implements Suchkriterien {
-    
     @ApiProperty({ required: false })
     declare readonly art: HausArt;
 
@@ -103,7 +102,7 @@ const APPLICATION_HAL_JSON = 'application/hal+json';
 @ApiTags('Haus REST-API')
 // @ApiBearerAuth()
 // Klassen ab ES 2015
-export class HausGetController {    
+export class HausGetController {
     readonly #service: HausReadService;
     readonly #logger = getLogger(HausGetController.name);
 
@@ -197,7 +196,6 @@ export class HausGetController {
         return res.contentType(APPLICATION_HAL_JSON).json(result).send();
     }
 
-    
     #toModel(haus: Haus, req: Request, all = true) {
         const baseUri = getBaseUri(req);
         this.#logger.debug('#toModel: baseUri=%s', baseUri);
@@ -217,8 +215,7 @@ export class HausGetController {
             strasse: haus.adresse?.strasse ?? 'N/A',
             hausnummer: haus.adresse?.hausnummer ?? 'N/A',
             plz: haus.adresse?.plz ?? 'N/A',
-            
-        };  
+        };
         const hausModel: HausModel = {
             art: haus.art,
             preis: haus.preis,

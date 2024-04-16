@@ -199,5 +199,4 @@ export class HausWriteController {
             aktualisiert: new Date(),
         };
     }
-
 }

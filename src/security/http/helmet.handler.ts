@@ -5,31 +5,31 @@
  */
 
 import {
-  contentSecurityPolicy,
-  frameguard,
-  hidePoweredBy,
-  hsts,
-  noSniff,
-  xssFilter,
+    contentSecurityPolicy,
+    frameguard,
+    hidePoweredBy,
+    hsts,
+    noSniff,
+    xssFilter,
 } from 'helmet';
 
 /**
  * Security-Funktionen für z.B. CSP, XSS, Click-Jacking, HSTS und MIME-Sniffing.
  */
 export const helmetHandlers = [
-  contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      defaultSrc: ["https: 'self'"],
-      scriptSrc: ["https: 'unsafe-inline' 'unsafe-eval'"],
-      imgSrc: ["data: 'self'"],
-    },
-    reportOnly: false,
-  }),
+    contentSecurityPolicy({
+        useDefaults: true,
+        directives: {
+            defaultSrc: ["https: 'self'"],
+            scriptSrc: ["https: 'unsafe-inline' 'unsafe-eval'"],
+            imgSrc: ["data: 'self'"],
+        },
+        reportOnly: false,
+    }),
 
-  xssFilter(),
-  frameguard(),
-  hsts(),
-  noSniff(),
-  hidePoweredBy(),
+    xssFilter(),
+    frameguard(),
+    hsts(),
+    noSniff(),
+    hidePoweredBy(),
 ];

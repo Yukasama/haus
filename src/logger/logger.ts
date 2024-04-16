@@ -33,11 +33,11 @@ import type pino from 'pino';
  * @param kind i.a. `class`
  */
 export const getLogger: (
-  context: string,
-  kind?: string,
+    context: string,
+    kind?: string,
 ) => pino.Logger<string> = (context: string, kind = 'class') => {
-  const bindings: Record<string, string> = {};
-  // eslint-disable-next-line security/detect-object-injection
-  bindings[kind] = context;
-  return parentLogger.child(bindings);
+    const bindings: Record<string, string> = {};
+    // eslint-disable-next-line security/detect-object-injection
+    bindings[kind] = context;
+    return parentLogger.child(bindings);
 };
