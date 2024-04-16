@@ -1,3 +1,7 @@
 id;strasse;hausnummer;plz;haus_id
 1;Moltkestrasse;8;76133;1
 20;Baumstrasse;2;31785;20
+30;Kaiserstrasse;9;76133;30	
+40;Zimmermannstrasse;23;42358;40
+50;Hauptstrasse;4;31785;50
+60;Waldstrasse;24;42358;60

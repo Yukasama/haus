@@ -1,4 +1,10 @@
 id;vorname;nachname;eigentuemer;haus_id
-1;Hung;Boisen;1
-20;Anselm;Böhm;1
-21;Jürgen;Zimmermann;20
+1;Hung;Boisen;true;1
+20;Anselm;Böhm;false;1
+21;Jürgen;Zimmermann;true;20
+22;Christopher;Claus;true;30
+30;Peter;Maier;true;40
+31;Alex;Schmidt;false;40
+40;Pascal;Metzger;true;50
+50;Maria;Schmitt;true;60
+51;Maja;Schmitt;false;60
