@@ -29,10 +29,10 @@ export class HausQueryResolver {
 
     @Query('haus')
     @Public()
-    async findById(@Args('id') id: IdInput) {
-        this.#logger.debug('findById(%o)', id);
+    async findById(@Args() { id }: IdInput) {
+        this.#logger.debug('findById: id=%d', id);
 
-        const haus = await this.#service.findById(id);
+        const haus = await this.#service.findById({ id });
 
         if (this.#logger.isLevelEnabled('debug')) {
             this.#logger.debug('findById(%o) = %o', haus.toString());

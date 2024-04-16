@@ -1,5 +1,5 @@
-id;version;hausflaeche;art;preis;zumVerkauf;baudatum;katalog;features;erzeugt;aktualisiert
-1;0;500;REIHENHAUS;350000.00;true;1999-02-01;https://haus.de;WÄRMEPUMPE;2022-02-01 00:00:00;2022-02-01 00:00:00
+id;version;hausflaeche;art;preis;verkaeuflich;baudatum;katalog;features;erzeugt;aktualisiert
+1;0;500;REIHENHAUS;350000.00;true;1999-02-01;https://haus.de;WAERMEPUMPE;2022-02-01 00:00:00;2022-02-01 00:00:00
 20;0;600;VILLA;500000.00;false;2011-02-02;https://villa.de;SMART-TV;2022-02-02 00:00:00;2022-02-02 00:00:00
 30;0;800;REIHENHAUS;700000;false;02.03.1999;https://www.haus.en/;;04.01.2023 12:23;04.01.2023 12:30
 40;0;900;MEHRFAMILIENHAUS;600000;true;02.03.2014;https://www.haus.at;Garten,Pool;04.01.2021 10:20;05.01.2021 10:20

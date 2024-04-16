@@ -77,7 +77,7 @@ export class HausQuery implements Suchkriterien {
     declare readonly preis: number;
 
     @ApiProperty({ required: false })
-    declare readonly zumVerkauf: boolean;
+    declare readonly verkaeuflich: boolean;
 
     @ApiProperty({ required: false })
     declare readonly datum: string;
@@ -220,7 +220,7 @@ export class HausGetController {
             art: haus.art,
             preis: haus.preis,
             hausflaeche: haus.hausflaeche,
-            zumVerkauf: haus.zumVerkauf,
+            verkaeuflich: haus.verkaeuflich,
             baudatum: haus.baudatum,
             katalog: haus.katalog,
             features: haus.features,

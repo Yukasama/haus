@@ -53,7 +53,7 @@ export class Haus {
 
     @Column('decimal')
     @ApiProperty({ example: true, type: Boolean })
-    readonly zumVerkauf: boolean | undefined;
+    readonly verkaeuflich: boolean | undefined;
 
     @Column('date')
     @ApiProperty({ example: '2021-01-31' })
@@ -92,7 +92,7 @@ export class Haus {
             version: this.version,
             art: this.art,
             preis: this.preis,
-            zumVerkauf: this.zumVerkauf,
+            verkaeuflich: this.verkaeuflich,
             baudatum: this.baudatum,
             katalog: this.katalog,
             features: this.features,

@@ -44,7 +44,7 @@ type Haus {
   hausflaeche: Int!
   art: Art
   preis: Float!
-  zumVerkauf: Boolean
+  verkaeuflich: Boolean
   baudatum: String
   katalog: String
   features: [String]
@@ -65,7 +65,7 @@ input SuchkriterienInput {
   strasse: String
   hausflaeche: String
   art: Art
-  zumVerkauf: Boolean
+  verkaeuflich: Boolean
 }
 
 "Daten zur Adresse eines neuen Hauses"
@@ -87,7 +87,7 @@ input HausInput {
   art: Art
   hausflaeche: Int
   preis: Float
-  zumVerkauf: Boolean
+  verkaeuflich: Boolean
   baudatum: String
   katalog: String
   features: [String]
@@ -106,7 +106,7 @@ input HausUpdateInput {
   art: Art
   hausflaeche: Int
   preis: Float
-  zumVerkauf: Boolean
+  verkaeuflich: Boolean
   baudatum: String
   katalog: String
   features: [String]

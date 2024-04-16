@@ -34,15 +34,15 @@ export class DbPopulateService implements OnApplicationBootstrap {
     readonly #logger = getLogger(DbPopulateService.name);
 
     readonly #oracleInsertHaus = `
-        INSERT INTO haus(id,version,hausflaeche,art,preis,zumVerkauf,baudatum,katalog,features,erzeugt,aktualisiert)
-        SELECT id,version,hausflaeche,art,preis,zumVerkauf,baudatum,katalog,features,erzeugt,aktualisiert
+        INSERT INTO haus(id,version,hausflaeche,art,preis,verkaeuflich,baudatum,katalog,features,erzeugt,aktualisiert)
+        SELECT id,version,hausflaeche,art,preis,verkaeuflich,baudatum,katalog,features,erzeugt,aktualisiert
         FROM   EXTERNAL (
             (id           NUMBER(10,0),
             version       NUMBER(3,0),
             hausflaeche   NUMBER(3,0),
             art           VARCHAR2(20),
             preis         NUMBER(10,2),
-            zumVerkauf    NUMBER(1,0),
+            verkaeuflich  NUMBER(1,0),
             baudatum      DATE,
             katalog       VARCHAR2(40),
             features      VARCHAR2(64),
@@ -54,7 +54,7 @@ export class DbPopulateService implements OnApplicationBootstrap {
                 RECORDS DELIMITED BY NEWLINE
                 SKIP 1
                 FIELDS TERMINATED BY ';'
-                (id,version,hausflaeche,art,preis,zumVerkauf,
+                (id,version,hausflaeche,art,preis,verkaeuflich,
                  baudatum DATE 'YYYY-MM-DD',
                  katalog,features,
                  erzeugt CHAR(19) date_format TIMESTAMP mask 'YYYY-MM-DD HH24:MI:SS',

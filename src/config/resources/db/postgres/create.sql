@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS haus (
     hausflaeche   integer NOT NULL,
     art           hausart,
     preis         decimal(10,2) NOT NULL,
-    zumVerkauf    boolean NOT NULL DEFAULT FALSE,
+    verkaeuflich  boolean NOT NULL DEFAULT FALSE,
     baudatum      date,
     katalog       varchar(40),
     features      varchar(64),

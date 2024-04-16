@@ -37,7 +37,7 @@ export class HausDtoOhneRef {
 
     @IsBoolean()
     @ApiProperty({ example: true, type: Boolean })
-    readonly zumVerkauf: boolean | undefined;
+    readonly verkaeuflich: boolean | undefined;
 
     @IsISO8601({ strict: true })
     @IsOptional()

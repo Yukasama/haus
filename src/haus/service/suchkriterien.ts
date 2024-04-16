@@ -4,7 +4,7 @@ export interface Suchkriterien {
     readonly hausflaeche?: number;
     readonly art?: HausArt;
     readonly preis?: number;
-    readonly zumVerkauf?: boolean;
+    readonly verkaeuflich?: boolean;
     readonly baudatum?: string;
     readonly katalog?: string;
     readonly javascript?: string;
