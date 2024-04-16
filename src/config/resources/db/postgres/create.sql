@@ -4,7 +4,7 @@ ALTER ROLE haus SET search_path = 'haus';
 
 CREATE TYPE buchart AS ENUM ('BUNGALOW', 'MEHRFAMILIENHAUS','REIHENHAUS', 'VILLA');
 
-CREATE TABLE IF NOT EXISTS buch (
+CREATE TABLE IF NOT EXISTS haus (
     id            integer GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY USING INDEX TABLESPACE hausspace,
     version       integer NOT NULL DEFAULT 0,
     hausflaeche   integer NOT NULL CHECK rating >= 0,

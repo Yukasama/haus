@@ -5,6 +5,7 @@ import { HausReadService } from './service/haus-read.service.js';
 import { HausWriteController } from './rest/haus-write.controller.js';
 import { HausWriteService } from './service/haus-write.service.js';
 import { KeycloakModule } from '../security/keycloak/keycloak.module.js';
+import { MailModule } from '../mail/mail.module.js';
 import { Module } from '@nestjs/common';
 import { QueryBuilder } from './service/query-builder.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,7 +22,7 @@ import { entities } from './entity/entities.js';
  * Funktionalität für TypeORM.
  */
 @Module({
-    imports: [KeycloakModule, TypeOrmModule.forFeature(entities)],
+    imports: [KeycloakModule, MailModule, TypeOrmModule.forFeature(entities)],
     controllers: [HausGetController, HausWriteController],
     providers: [
         HausReadService,
