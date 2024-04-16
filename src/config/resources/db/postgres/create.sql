@@ -2,15 +2,14 @@ CREATE SCHEMA IF NOT EXISTS AUTHORIZATION haus;
 
 ALTER ROLE haus SET search_path = 'haus';
 
-CREATE TYPE buchart AS ENUM ('BUNGALOW', 'MEHRFAMILIENHAUS','REIHENHAUS', 'VILLA');
+CREATE TYPE hausart AS ENUM ('BUNGALOW', 'MEHRFAMILIENHAUS', 'REIHENHAUS', 'VILLA');
 
 CREATE TABLE IF NOT EXISTS haus (
     id            integer GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY USING INDEX TABLESPACE hausspace,
     version       integer NOT NULL DEFAULT 0,
-    hausflaeche   integer NOT NULL CHECK rating >= 0,
+    hausflaeche   integer NOT NULL,
     art           hausart,
     preis         decimal(10,2) NOT NULL,
-    rabatt        decimal(4,3) NOT NULL,
     zumVerkauf    boolean NOT NULL DEFAULT FALSE,
     baudatum      date,
     katalog       varchar(40),
@@ -32,7 +31,7 @@ CREATE TABLE IF NOT EXISTS person (
     id              integer GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY USING INDEX TABLESPACE hausspace,
     vorname         varchar(32) NOT NULL,
     nachname        varchar(32) NOT NULL,
-    zumVerkauf      boolean NOT NULL DEFAULT FALSE,
+    eigentuemer     boolean NOT NULL DEFAULT FALSE,
     haus_id         integer NOT NULL REFERENCES haus
 ) TABLESPACE hausspace;
 CREATE INDEX IF NOT EXISTS person_haus_id_idx ON person(haus_id) TABLESPACE hausspace;

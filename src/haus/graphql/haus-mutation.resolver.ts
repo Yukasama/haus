@@ -147,9 +147,6 @@ export class HausMutationResolver {
 
     // #errorMsgCreateHaus(err: CreateError) {
     //     switch (err.type) {
-    //         case 'IsbnExists': {
-    //             return `Die ISBN ${err.isbn} existiert bereits`;
-    //         }
     //         default: {
     //             return 'Unbekannter Fehler';
     //         }
