@@ -3,12 +3,12 @@ include:
   #- path: ./db/mysql/compose.yml
   #- path: ./db/oracle/compose.yml
   - path: ./keycloak/compose.yml
-  - path: ./fakesmtp/compose.yml
+  # - path: ./fakesmtp/compose.yml
 
 # https://docs.docker.com/compose/compose-file/05-services
 services:
   haus:
-    image: juergenzimmermann/haus:2024.04.0-distroless
+    image: juergenzimmermann/haus:2024.04.0-bookworm
     depends_on:
       db:
         condition: service_healthy

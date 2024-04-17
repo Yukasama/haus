@@ -460,7 +460,7 @@ validieren:
 ```powershell
     # Distroless (Debian Bullseye bzw. 11)
     Get-Content Dockerfile | docker run --rm --interactive hadolint/hadolint:2.12.1-beta-debian
-    docker build --tag juergenzimmermann/buch:2024.04.0-bookworm .
+    docker build --tag juergenzimmermann/haus:2024.04.0-bookworm .
 
     # Debian Bookworm (12) slim
     Get-Content Dockerfile.distroless | docker run --rm --interactive hadolint/hadolint:2.12.1-beta-debian
