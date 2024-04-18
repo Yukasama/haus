@@ -64,6 +64,7 @@ enum Art {
 input SuchkriterienInput {
   strasse: String
   hausflaeche: String
+  preis: Float
   art: Art
   verkaeuflich: Boolean
 }

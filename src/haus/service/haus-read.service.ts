@@ -88,8 +88,9 @@ export class HausReadService {
         keys.forEach((key) => {
             if (
                 !this.#hausProps.includes(key) &&
-                key !== 'javascript' &&
-                key !== 'typescript'
+                key !== 'waermepumpe' &&
+                key !== 'pool' &&
+                key !== 'strasse'
             ) {
                 this.#logger.debug(
                     '#checkKeys: ungueltiges Suchkriterium "%s"',

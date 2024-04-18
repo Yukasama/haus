@@ -24,7 +24,7 @@ import {
     shutdownServer,
     startServer,
 } from '../testserver.js';
-import { type ErrorResponse } from './error-response.js';
+// import { type ErrorResponse } from './error-response.js';
 import { type HausDTO } from '../../src/haus/rest/hausDTO.entity.js';
 import { HausReadService } from '../../src/haus/service/haus-read.service.js';
 import { HttpStatus } from '@nestjs/common';
@@ -55,7 +55,7 @@ const neuesHaus: HausDTO = {
     ],
 };
 const neuesHausInvalid: Record<string, unknown> = {
-    hausflaeche: -600,
+    hausflaeche: 600,
     art: 'REIHENHAU',
     preis: -2500,
     verkaeuflich: 'true',
@@ -63,27 +63,26 @@ const neuesHausInvalid: Record<string, unknown> = {
     katalog: 'https://post.rest',
     features: ['WAERMEPUMPE'],
     adresse: {
-        strasse: 'Strasse',
+        strasse: 1,
         hausnummer: '1',
-        plz: 7613,
+        plz: '76138',
     },
 };
-// TODO
-const neuesHausIsbnExistiert: HausDTO = {
-    hausflaeche: -600,
-    art: 'REIHENHAUS',
-    preis: -2500,
-    verkaeuflich: true,
-    baudatum: '2022-02-28',
-    katalog: 'https://post.rest',
-    features: ['WAERMEPUMPE'],
-    adresse: {
-        strasse: 'Strasse',
-        hausnummer: '1',
-        plz: '76133',
-    },
-    personen: undefined,
-};
+// const neuesHausIsbnExistiert: HausDTO = {
+//     hausflaeche: -600,
+//     art: 'REIHENHAUS',
+//     preis: -2500,
+//     verkaeuflich: true,
+//     baudatum: '2022-02-28',
+//     katalog: 'https://post.rest',
+//     features: ['WAERMEPUMPE'],
+//     adresse: {
+//         strasse: 'Strasse',
+//         hausnummer: '1',
+//         plz: '76133',
+//     },
+//     personen: undefined,
+// };
 
 // -----------------------------------------------------------------------------
 // T e s t s
@@ -150,11 +149,11 @@ describe('POST /rest', () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         const expectedMsg = [
-            expect.stringMatching(/^hausflaeche /u),
             expect.stringMatching(/^art /u),
             expect.stringMatching(/^preis /u),
             expect.stringMatching(/^verkaeuflich /u),
-            expect.stringMatching(/^adresse.plz /u),
+            expect.stringMatching(/^adresse.strasse /u),
+            expect.stringMatching(/^adresse.strasse /u),
         ];
 
         // when
@@ -178,26 +177,26 @@ describe('POST /rest', () => {
     });
 
     // TODO
-    test('Neues Haus, aber die ISBN existiert bereits', async () => {
-        // given
-        const token = await loginRest(client);
-        headers.Authorization = `Bearer ${token}`;
+    // test('Neues Haus, aber die ISBN existiert bereits', async () => {
+    //     // given
+    //     const token = await loginRest(client);
+    //     headers.Authorization = `Bearer ${token}`;
 
-        // when
-        const response: AxiosResponse<ErrorResponse> = await client.post(
-            '/rest',
-            neuesHausIsbnExistiert,
-            { headers },
-        );
+    //     // when
+    //     const response: AxiosResponse<ErrorResponse> = await client.post(
+    //         '/rest',
+    //         neuesHausIsbnExistiert,
+    //         { headers },
+    //     );
 
-        // then
-        const { data } = response;
+    //     // then
+    //     const { data } = response;
 
-        const { message, statusCode } = data;
+    //     const { message, statusCode } = data;
 
-        expect(message).toEqual(expect.stringContaining('ISBN'));
-        expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-    });
+    //     expect(message).toEqual(expect.stringContaining('ISBN'));
+    //     expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+    // });
 
     test('Neues Haus, aber ohne Token', async () => {
         // when

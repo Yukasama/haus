@@ -548,7 +548,7 @@ module.exports = {
         // siehe @typescript-eslint/require-await
         'require-await': 'off',
         'require-unicode-regexp': 'error',
-        'sort-imports': 'error',
+        // 'sort-imports': 'error',
         strict: 'error',
         'symbol-description': 'error',
         yoda: ['error', 'never'],

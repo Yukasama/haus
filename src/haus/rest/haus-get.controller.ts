@@ -86,10 +86,10 @@ export class HausQuery implements Suchkriterien {
     declare readonly katalog: string;
 
     @ApiProperty({ required: false })
-    declare readonly javascript: string;
+    declare readonly waermepumpe: string;
 
     @ApiProperty({ required: false })
-    declare readonly typescript: string;
+    declare readonly pool: string;
 
     @ApiProperty({ required: false })
     declare readonly adresse: string;

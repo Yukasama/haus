@@ -1,12 +1,12 @@
-import { Person } from '../entity/person.entity.js';
-import { Haus } from '../entity/haus.entity.js';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { type Suchkriterien } from './suchkriterien.js';
-import { Adresse } from '../entity/adresse.entity.js';
-import { getLogger } from '../../logger/logger.js';
 import { typeOrmModuleOptions } from '../../config/typeormOptions.js';
+import { getLogger } from '../../logger/logger.js';
+import { Adresse } from '../entity/adresse.entity.js';
+import { Haus } from '../entity/haus.entity.js';
+import { Person } from '../entity/person.entity.js';
+import { type Suchkriterien } from './suchkriterien.js';
 
 export interface BuildIdParams {
     readonly id: number;
@@ -51,16 +51,17 @@ export class QueryBuilder {
             );
         }
 
-        queryBuilder.where(`${this.#hausAlias}.id = :id`, { id: id });
+        queryBuilder.where(`${this.#hausAlias}.id = :id`, { id: id }); // eslint-disable-line object-shorthand
         return queryBuilder;
     }
 
-    build({ adresse, javascript, typescript, ...props }: Suchkriterien) {
+    // eslint-disable-next-line max-lines-per-function
+    build({ strasse, waermepumpe, pool, ...props }: Suchkriterien) {
         this.#logger.debug(
-            'build: adresse=%s, javascript=%s, typescript=%s, props=%o',
-            adresse,
-            javascript,
-            typescript,
+            'build: strasse=%s, waermepumpe=%s, pool=%s, props=%o',
+            strasse,
+            waermepumpe,
+            pool,
             props,
         );
 
@@ -72,34 +73,34 @@ export class QueryBuilder {
 
         let useWhere = true;
 
-        if (adresse !== undefined && typeof adresse === 'string') {
+        if (strasse !== undefined && typeof strasse === 'string') {
             const ilike =
                 typeOrmModuleOptions.type === 'postgres' ? 'ilike' : 'like';
             queryBuilder = queryBuilder.where(
-                `${this.#adresseAlias}.adresse ${ilike} :adresse`,
-                { adresse: `%${adresse}%` },
+                `${this.#adresseAlias}.strasse ${ilike} :strasse`,
+                { strasse: `%${strasse}%` },
             );
             useWhere = false;
         }
 
-        if (javascript === 'true') {
+        if (waermepumpe === 'true') {
             queryBuilder = useWhere
                 ? queryBuilder.where(
-                      `${this.#hausAlias}.features like '%JAVASCRIPT%'`,
+                      `${this.#hausAlias}.features like '%WAERMEPUMPE%'`,
                   )
                 : queryBuilder.andWhere(
-                      `${this.#hausAlias}.features like '%JAVASCRIPT%'`,
+                      `${this.#hausAlias}.features like '%WAERMEPUMPE%'`,
                   );
             useWhere = false;
         }
 
-        if (typescript === 'true') {
+        if (pool === 'true') {
             queryBuilder = useWhere
                 ? queryBuilder.where(
-                      `${this.#hausAlias}.features like '%TYPESCRIPT%'`,
+                      `${this.#hausAlias}.features like '%POOL%'`,
                   )
                 : queryBuilder.andWhere(
-                      `${this.#hausAlias}.features like '%TYPESCRIPT%'`,
+                      `${this.#hausAlias}.features like '%POOL%'`,
                   );
             useWhere = false;
         }

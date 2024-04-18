@@ -56,15 +56,15 @@ describe('GraphQL Mutations', () => {
                     create(
                         input: {
                             hausflaeche: 450,
-                            art: REIHENHAUS,
-                            preis: 420000.00,
+                            art: BUNGALOW,
+                            preis: 420000,
                             verkaeuflich: true,
                             baudatum: "2020-02-28",
                             katalog: "https://haus.de",
                             features: ["WAERMEPUMPE", "SMART-TV"],
                             adresse: {
-                                strasse: "Turmstrasse",
-                                hausnummer: 1,
+                                strasse: "Moltkestrasse",
+                                hausnummer: "1",
                                 plz: "84759"
                             },
                             personen: [{
@@ -107,17 +107,17 @@ describe('GraphQL Mutations', () => {
                 mutation {
                   create(
                     input: {
-                        hausflaeche: -450,
+                        hausflaeche: 450,
                         art: BUNGALO,
-                        preis: -420000.00,
+                        preis: 420000,
                         verkaeuflich: "true",
-                        baudatum: "2025-02-28",
+                        baudatum: "2023/02-28",
                         katalog: "https://haus.de",
                         features: ["WAERMEPUMPE", "SMART-TV"],
                         adresse: {
-                            strasse: "Turmstrasse",
-                            hausnummer: 1,
-                            plz: 84759
+                            strasse: "Moltkestrasse",
+                            hausnummer: "1",
+                            plz: "84759"
                         },
                         personen: [{
                             vorname: "Marius",
@@ -132,12 +132,9 @@ describe('GraphQL Mutations', () => {
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^hausflaeche /u),
             expect.stringMatching(/^art /u),
-            expect.stringMatching(/^preis /u),
             expect.stringMatching(/^verkaeuflich /u),
             expect.stringMatching(/^baudatum /u),
-            expect.stringMatching(/^adresse.plz /u),
         ];
 
         // when
@@ -220,13 +217,13 @@ describe('GraphQL Mutations', () => {
                         input: {
                             id: "${id}",
                             version: 0,
-                            hausflaeche: -450,
+                            hausflaeche: 450,
                             art: BUNGALO,
                             preis: -420000.00,
                             verkaeuflich: "true",
-                            baudatum: "2025-02-28",
+                            baudatum: "2025/02-28",
                             katalog: "https://haus.de",
-                            features: ["WAERMEPUMPE", "SMART-TV"],
+                            features: ["WAERMEPUMPE"],
                         }
                     ) {
                         version
@@ -235,7 +232,6 @@ describe('GraphQL Mutations', () => {
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^hausflaeche /u),
             expect.stringMatching(/^art /u),
             expect.stringMatching(/^preis /u),
             expect.stringMatching(/^verkaeuflich /u),

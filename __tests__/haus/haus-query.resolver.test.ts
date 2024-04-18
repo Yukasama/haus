@@ -22,19 +22,14 @@ export interface GraphQLResponseBody {
     errors?: readonly [GraphQLFormattedError];
 }
 
-type HausDTO = Omit<
-    Haus,
-    'abbildungen' | 'aktualisiert' | 'erzeugt' | 'rabatt'
-> & {
-    rabatt: string;
-};
+type HausDTO = Omit<Haus, 'personen' | 'aktualisiert' | 'erzeugt'>;
 
 // -----------------------------------------------------------------------------
 // T e s t d a t e n
 // -----------------------------------------------------------------------------
 const idVorhanden = '1';
 
-const strasseVorhanden = 'Turmstrasse';
+const strasseVorhanden = 'Moltkestrasse';
 const teilStrasseVorhanden = 'a';
 const teilStrasseNichtVorhanden = 'abc';
 
@@ -237,9 +232,6 @@ describe('GraphQL Queries', () => {
                         strasse: "${teilStrasseNichtVorhanden}"
                     }) {
                         art
-                        adresse {
-                            strasse
-                        }
                     }
                 }
             `,
@@ -321,7 +313,7 @@ describe('GraphQL Queries', () => {
                         preis: ${preisVorhanden},
                         strasse: "${teilStrasseVorhanden}"
                     }) {
-                        rating
+                        preis
                         adresse {
                             strasse
                         }

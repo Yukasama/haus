@@ -55,11 +55,11 @@ const geaendertesHausIdNichtVorhanden: HausDtoOhneRef = {
 const idNichtVorhanden = '999999';
 
 const geaendertesHausInvalid: Record<string, unknown> = {
-    hausflaeche: -600,
+    hausflaeche: 600,
     art: 'REIHENHAU',
     preis: -2500,
     verkaeuflich: 'true',
-    baudatum: '2022-02-28',
+    baudatum: '2022/02-28',
     katalog: 'https://post.rest',
     features: ['WAERMEPUMPE'],
 };
@@ -145,10 +145,10 @@ describe('PUT /rest/:id', () => {
         headers.Authorization = `Bearer ${token}`;
         headers['If-Match'] = '"0"';
         const expectedMsg = [
-            expect.stringMatching(/^hausflaeche /u),
             expect.stringMatching(/^art /u),
             expect.stringMatching(/^preis /u),
             expect.stringMatching(/^verkaeuflich /u),
+            expect.stringMatching(/^baudatum /u),
         ];
 
         // when

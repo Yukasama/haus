@@ -7,7 +7,7 @@ export interface Suchkriterien {
     readonly verkaeuflich?: boolean;
     readonly baudatum?: string;
     readonly katalog?: string;
-    readonly javascript?: string;
-    readonly typescript?: string;
-    readonly adresse?: string;
+    readonly waermepumpe?: string;
+    readonly pool?: string;
+    readonly strasse?: string;
 }

@@ -34,8 +34,8 @@ import { HttpStatus } from '@nestjs/common';
 // -----------------------------------------------------------------------------
 const strasseVorhanden = 'a';
 const strasseNichtVorhanden = 'xx';
-const featureVorhanden = 'javascript';
-const featureNichtVorhanden = 'csharp';
+const featureVorhanden = 'waermepumpe';
+const featureNichtVorhanden = 'nicht vorhanden';
 
 // -----------------------------------------------------------------------------
 // T e s t s
@@ -126,7 +126,7 @@ describe('GET /rest', () => {
         expect(statusCode).toBe(HttpStatus.NOT_FOUND);
     });
 
-    test('Mind. 1 Haus mit vorhandenem Schlagwort', async () => {
+    test('Mind. 1 Haus mit vorhandenem Feature', async () => {
         // given
         const params = { [featureVorhanden]: 'true' };
 
@@ -142,7 +142,7 @@ describe('GET /rest', () => {
 
         const { haeuser } = data._embedded;
 
-        // Jedes Haus hat im Array der Schlagwoerter z.B. "javascript"
+        // Jedes Haus hat im Array der Features z.B. "WAERMEPUMPE"
         haeuser
             .map((haus) => haus.features)
             .forEach((features) =>
@@ -152,7 +152,7 @@ describe('GET /rest', () => {
             );
     });
 
-    test('Keine Haeuser zu einem nicht vorhandenen Schlagwort', async () => {
+    test('Keine Haeuser zu einem nicht vorhandenen Feature', async () => {
         // given
         const params = { [featureNichtVorhanden]: 'true' };
 

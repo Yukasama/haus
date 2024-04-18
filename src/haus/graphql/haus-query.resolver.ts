@@ -1,12 +1,12 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
 import { UseFilters, UseInterceptors } from '@nestjs/common';
-import { Haus } from '../entity/haus.entity.js';
-import { Suchkriterien } from './suchkriterien';
-import { HausReadService } from '../service/haus-read.service.js';
-import { HttpExceptionFilter } from './http-exception.filter.js';
-import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Public } from 'nest-keycloak-connect';
 import { getLogger } from '../../logger/logger.js';
+import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
+import { Haus } from '../entity/haus.entity.js';
+import { HausReadService } from '../service/haus-read.service.js';
+import { HttpExceptionFilter } from './http-exception.filter.js';
+import { type Suchkriterien } from './suchkriterien';
 
 export interface IdInput {
     readonly id: number;
