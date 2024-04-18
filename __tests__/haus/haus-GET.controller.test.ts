@@ -25,17 +25,17 @@ import {
     shutdownServer,
     startServer,
 } from '../testserver.js';
-import { type HaeuserModel } from '../../src/haus/rest/haus-get.controller.js';
 import { type ErrorResponse } from './error-response.js';
+import { type HaeuserModel } from '../../src/haus/rest/haus-get.controller.js';
 import { HttpStatus } from '@nestjs/common';
 
 // -----------------------------------------------------------------------------
 // T e s t d a t e n
 // -----------------------------------------------------------------------------
-const titelVorhanden = 'a';
-const titelNichtVorhanden = 'xx';
-const schlagwortVorhanden = 'javascript';
-const schlagwortNichtVorhanden = 'csharp';
+const strasseVorhanden = 'a';
+const strasseNichtVorhanden = 'xx';
+const featureVorhanden = 'javascript';
+const featureNichtVorhanden = 'csharp';
 
 // -----------------------------------------------------------------------------
 // T e s t s
@@ -82,9 +82,9 @@ describe('GET /rest', () => {
             });
     });
 
-    test('Haeuser mit einem Teil-Titel suchen', async () => {
+    test('Haeuser mit einem Teil-Strasse suchen', async () => {
         // given
-        const params = { titel: titelVorhanden };
+        const params = { strasse: strasseVorhanden };
 
         // when
         const { status, headers, data }: AxiosResponse<HaeuserModel> =
@@ -102,14 +102,14 @@ describe('GET /rest', () => {
             .map((haus) => haus.adresse)
             .forEach((adresse) =>
                 expect(adresse.strasse.toLowerCase()).toEqual(
-                    expect.stringContaining(titelVorhanden),
+                    expect.stringContaining(strasseVorhanden),
                 ),
             );
     });
 
-    test('Häuser zu einem nicht vorhandenen Teil-Titel suchen', async () => {
+    test('Häuser zu einer nicht vorhandenen Teil-Strasse suchen', async () => {
         // given
-        const params = { titel: titelNichtVorhanden };
+        const params = { strasse: strasseNichtVorhanden };
 
         // when
         const { status, data }: AxiosResponse<ErrorResponse> = await client.get(
@@ -128,7 +128,7 @@ describe('GET /rest', () => {
 
     test('Mind. 1 Haus mit vorhandenem Schlagwort', async () => {
         // given
-        const params = { [schlagwortVorhanden]: 'true' };
+        const params = { [featureVorhanden]: 'true' };
 
         // when
         const { status, headers, data }: AxiosResponse<HaeuserModel> =
@@ -147,14 +147,14 @@ describe('GET /rest', () => {
             .map((haus) => haus.features)
             .forEach((features) =>
                 expect(features).toEqual(
-                    expect.arrayContaining([schlagwortVorhanden.toUpperCase()]),
+                    expect.arrayContaining([featureVorhanden.toUpperCase()]),
                 ),
             );
     });
 
     test('Keine Haeuser zu einem nicht vorhandenen Schlagwort', async () => {
         // given
-        const params = { [schlagwortNichtVorhanden]: 'true' };
+        const params = { [featureNichtVorhanden]: 'true' };
 
         // when
         const { status, data }: AxiosResponse<ErrorResponse> = await client.get(

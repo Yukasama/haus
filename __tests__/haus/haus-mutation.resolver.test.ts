@@ -55,22 +55,22 @@ describe('GraphQL Mutations', () => {
                 mutation {
                     create(
                         input: {
-                            isbn: "978-0-321-19368-1",
-                            rating: 1,
-                            art: KINDLE,
-                            preis: 99.99,
-                            rabatt: 0.123,
-                            lieferbar: true,
-                            datum: "2022-02-28",
-                            homepage: "https://create.mutation",
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"],
-                            titel: {
-                                titel: "Titelcreatemutation",
-                                untertitel: "untertitelcreatemutation"
+                            hausflaeche: 450,
+                            art: REIHENHAUS,
+                            preis: 420000.00,
+                            verkaeuflich: true,
+                            baudatum: "2020-02-28",
+                            katalog: "https://haus.de",
+                            features: ["WAERMEPUMPE", "SMART-TV"],
+                            adresse: {
+                                strasse: "Turmstrasse",
+                                hausnummer: 1,
+                                plz: "84759"
                             },
-                            abbildungen: [{
-                                beschriftung: "Abb. 1",
-                                contentType: "img/png"
+                            personen: [{
+                                vorname: "Marius",
+                                nachname: "Müller",
+                                eigentuemer: true
                             }]
                         }
                     ) {
@@ -105,34 +105,39 @@ describe('GraphQL Mutations', () => {
         const body: GraphQLQuery = {
             query: `
                 mutation {
-                    create(
-                        input: {
-                            isbn: "falsche-ISBN",
-                            rating: -1,
-                            art: KINDLE,
-                            preis: -1,
-                            rabatt: 2,
-                            lieferbar: false,
-                            datum: "12345-123-123",
-                            homepage: "anyHomepage",
-                            titel: {
-                                titel: "?!"
-                            }
-                        }
-                    ) {
-                        id
+                  create(
+                    input: {
+                        hausflaeche: -450,
+                        art: BUNGALO,
+                        preis: -420000.00,
+                        verkaeuflich: "true",
+                        baudatum: "2025-02-28",
+                        katalog: "https://haus.de",
+                        features: ["WAERMEPUMPE", "SMART-TV"],
+                        adresse: {
+                            strasse: "Turmstrasse",
+                            hausnummer: 1,
+                            plz: 84759
+                        },
+                        personen: [{
+                            vorname: "Marius",
+                            nachname: "Müller",
+                            eigentuemer: true
+                        }]
                     }
+                ) {
+                    id
+                }
                 }
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^isbn /u),
-            expect.stringMatching(/^rating /u),
+            expect.stringMatching(/^hausflaeche /u),
+            expect.stringMatching(/^art /u),
             expect.stringMatching(/^preis /u),
-            expect.stringMatching(/^rabatt /u),
-            expect.stringMatching(/^datum /u),
-            expect.stringMatching(/^homepage /u),
-            expect.stringMatching(/^titel.titel /u),
+            expect.stringMatching(/^verkaeuflich /u),
+            expect.stringMatching(/^baudatum /u),
+            expect.stringMatching(/^adresse.plz /u),
         ];
 
         // when
@@ -172,15 +177,13 @@ describe('GraphQL Mutations', () => {
                         input: {
                             id: "40",
                             version: 0,
-                            isbn: "978-0-007-09732-6",
-                            rating: 5,
-                            art: KINDLE,
-                            preis: 444.44,
-                            rabatt: 0.099,
-                            lieferbar: false,
-                            datum: "2021-04-04",
-                            homepage: "https://update.mutation"
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"],
+                            hausflaeche: 450,
+                            art: BUNGALOW,
+                            preis: 420000.00,
+                            verkaeuflich: true,
+                            baudatum: "2020-02-28",
+                            katalog: "https://haus.de",
+                            features: ["WAERMEPUMPE", "SMART-TV"],
                         }
                     ) {
                         version
@@ -217,15 +220,13 @@ describe('GraphQL Mutations', () => {
                         input: {
                             id: "${id}",
                             version: 0,
-                            isbn: "falsche-ISBN",
-                            rating: -1,
-                            art: KINDLE,
-                            preis: -1,
-                            rabatt: 2,
-                            lieferbar: false,
-                            datum: "12345-123-123",
-                            homepage: "anyHomepage",
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"]
+                            hausflaeche: -450,
+                            art: BUNGALO,
+                            preis: -420000.00,
+                            verkaeuflich: "true",
+                            baudatum: "2025-02-28",
+                            katalog: "https://haus.de",
+                            features: ["WAERMEPUMPE", "SMART-TV"],
                         }
                     ) {
                         version
@@ -234,12 +235,11 @@ describe('GraphQL Mutations', () => {
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^isbn /u),
-            expect.stringMatching(/^rating /u),
+            expect.stringMatching(/^hausflaeche /u),
+            expect.stringMatching(/^art /u),
             expect.stringMatching(/^preis /u),
-            expect.stringMatching(/^rabatt /u),
-            expect.stringMatching(/^datum /u),
-            expect.stringMatching(/^homepage /u),
+            expect.stringMatching(/^verkaeuflich /u),
+            expect.stringMatching(/^baudatum /u),
         ];
 
         // when
@@ -277,15 +277,13 @@ describe('GraphQL Mutations', () => {
                         input: {
                             id: "${id}",
                             version: 0,
-                            isbn: "978-0-007-09732-6",
-                            rating: 5,
-                            art: DRUCKAUSGABE,
-                            preis: 99.99,
-                            rabatt: 0.099,
-                            lieferbar: false,
-                            datum: "2021-01-02",
-                            homepage: "https://acme.com",
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"]
+                            hausflaeche: 450,
+                            art: BUNGALOW,
+                            preis: 420000.00,
+                            verkaeuflich: true,
+                            baudatum: "2020-02-28",
+                            katalog: "https://haus.de",
+                            features: ["WAERMEPUMPE", "SMART-TV"],
                         }
                     ) {
                         version
