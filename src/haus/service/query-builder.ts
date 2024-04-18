@@ -9,7 +9,6 @@ import { getLogger } from '../../logger/logger.js';
 import { typeOrmModuleOptions } from '../../config/typeormOptions.js';
 
 export interface BuildIdParams {
-
     readonly id: number;
 
     readonly mitPersonen?: boolean;
@@ -38,7 +37,6 @@ export class QueryBuilder {
     }
 
     buildId({ id, mitPersonen = false }: BuildIdParams) {
-
         const queryBuilder = this.#repo.createQueryBuilder(this.#hausAlias);
 
         queryBuilder.innerJoinAndSelect(
@@ -67,7 +65,10 @@ export class QueryBuilder {
         );
 
         let queryBuilder = this.#repo.createQueryBuilder(this.#hausAlias);
-        queryBuilder.innerJoinAndSelect(`${this.#hausAlias}.adresse`, 'adresse');
+        queryBuilder.innerJoinAndSelect(
+            `${this.#hausAlias}.adresse`,
+            'adresse',
+        );
 
         let useWhere = true;
 

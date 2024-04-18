@@ -34,14 +34,14 @@ type HausDTO = Omit<
 // -----------------------------------------------------------------------------
 const idVorhanden = '1';
 
-const titelVorhanden = 'Alpha';
-const teilTitelVorhanden = 'a';
-const teilTitelNichtVorhanden = 'abc';
+const strasseVorhanden = 'Turmstrasse';
+const teilStrasseVorhanden = 'a';
+const teilStrasseNichtVorhanden = 'abc';
 
-const isbnVorhanden = '978-3-897-22583-1';
+// const isbnVorhanden = '978-3-897-22583-1';
 
-const ratingVorhanden = 2;
-const ratingNichtVorhanden = 99;
+const preisVorhanden = 350_000;
+const preisNichtVorhanden = 123_456;
 
 // -----------------------------------------------------------------------------
 // T e s t s
@@ -76,18 +76,16 @@ describe('GraphQL Queries', () => {
                 {
                     haus(id: "${idVorhanden}") {
                         version
-                        isbn
-                        rating
+                        hausflaeche
                         art
                         preis
-                        lieferbar
-                        datum
-                        homepage
-                        schlagwoerter
-                        titel {
-                            titel
-                        }
-                        rabatt(short: true)
+                        verkaeuflich
+                        baudatum
+                        katalog
+                        features
+                        adresse {
+                            strasse
+                        },
                     }
                 }
             `,
@@ -106,7 +104,7 @@ describe('GraphQL Queries', () => {
         const { haus } = data.data!;
         const result: HausDTO = haus;
 
-        expect(result.titel?.titel).toMatch(/^\w/u);
+        expect(result.adresse?.strasse).toMatch(/^\w/u);
         expect(result.version).toBeGreaterThan(-1);
         expect(result.id).toBeUndefined();
     });
@@ -118,8 +116,8 @@ describe('GraphQL Queries', () => {
             query: `
                 {
                     haus(id: "${id}") {
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -149,17 +147,17 @@ describe('GraphQL Queries', () => {
         expect(extensions!.code).toBe('BAD_USER_INPUT');
     });
 
-    test('Haus zu vorhandenem Titel', async () => {
+    test('Haus zu vorhandener Strasse', async () => {
         // given
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
-                        titel: "${titelVorhanden}"
+                    haeuser(suchkriterien: {
+                        strasse: "${strasseVorhanden}"
                     }) {
                         art
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -177,29 +175,29 @@ describe('GraphQL Queries', () => {
 
         expect(data.data).toBeDefined();
 
-        const { buecher } = data.data!;
+        const { haeuser } = data.data!;
 
-        expect(buecher).not.toHaveLength(0);
+        expect(haeuser).not.toHaveLength(0);
 
-        const buecherArray: HausDTO[] = buecher;
+        const haeuserArray: HausDTO[] = haeuser;
 
-        expect(buecherArray).toHaveLength(1);
+        expect(haeuserArray).toHaveLength(1);
 
-        const [haus] = buecherArray;
+        const [haus] = haeuserArray;
 
-        expect(haus!.titel?.titel).toBe(titelVorhanden);
+        expect(haus!.adresse?.strasse).toBe(strasseVorhanden);
     });
 
-    test('Haus zu vorhandenem Teil-Titel', async () => {
+    test('Haus zu vorhandener Teil-Strasse', async () => {
         // given
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
-                        titel: "${teilTitelVorhanden}"
+                    haeuser(suchkriterien: {
+                        strasse: "${teilStrasseVorhanden}"
                     }) {
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -216,31 +214,31 @@ describe('GraphQL Queries', () => {
         expect(data.errors).toBeUndefined();
         expect(data.data).toBeDefined();
 
-        const { buecher } = data.data!;
+        const { haeuser } = data.data!;
 
-        expect(buecher).not.toHaveLength(0);
+        expect(haeuser).not.toHaveLength(0);
 
-        const buecherArray: HausDTO[] = buecher;
-        buecherArray
-            .map((haus) => haus.titel)
-            .forEach((titel) =>
-                expect(titel?.titel.toLowerCase()).toEqual(
-                    expect.stringContaining(teilTitelVorhanden),
+        const haeuserArray: HausDTO[] = haeuser;
+        haeuserArray
+            .map((haus) => haus.adresse)
+            .forEach((adresse) =>
+                expect(adresse?.strasse.toLowerCase()).toEqual(
+                    expect.stringContaining(teilStrasseVorhanden),
                 ),
             );
     });
 
-    test('Haus zu nicht vorhandenem Titel', async () => {
+    test('Haus zu nicht vorhandener Strasse', async () => {
         // given
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
-                        titel: "${teilTitelNichtVorhanden}"
+                    haeuser(suchkriterien: {
+                        strasse: "${teilStrasseNichtVorhanden}"
                     }) {
                         art
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -254,7 +252,7 @@ describe('GraphQL Queries', () => {
         // then
         expect(status).toBe(HttpStatus.OK);
         expect(headers['content-type']).toMatch(/json/iu);
-        expect(data.data!.buecher).toBeNull();
+        expect(data.data!.haeuser).toBeNull();
 
         const { errors } = data;
 
@@ -265,66 +263,67 @@ describe('GraphQL Queries', () => {
 
         expect(message).toMatch(/^Keine Haeuser gefunden:/u);
         expect(path).toBeDefined();
-        expect(path![0]).toBe('buecher');
+        expect(path![0]).toBe('haeuser');
         expect(extensions).toBeDefined();
         expect(extensions!.code).toBe('BAD_USER_INPUT');
     });
 
-    test('Haus zu vorhandener ISBN-Nummer', async () => {
+    // TODO
+    // test('Haus zu vorhandener ISBN-Nummer', async () => {
+    //     // given
+    //     const body: GraphQLRequest = {
+    //         query: `
+    //             {
+    //                 haeuser(suchkriterien: {
+    //                     isbn: "${isbnVorhanden}"
+    //                 }) {
+    //                     isbn
+    //                     titel {
+    //                         titel
+    //                     }
+    //                 }
+    //             }
+    //         `,
+    //     };
+
+    //     // when
+    //     const { status, headers, data }: AxiosResponse<GraphQLResponseBody> =
+    //         await client.post(graphqlPath, body);
+
+    //     // then
+    //     expect(status).toBe(HttpStatus.OK);
+    //     expect(headers['content-type']).toMatch(/json/iu);
+    //     expect(data.errors).toBeUndefined();
+
+    //     expect(data.data).toBeDefined();
+
+    //     const { haeuser } = data.data!;
+
+    //     expect(haeuser).not.toHaveLength(0);
+
+    //     const haeuserArray: HausDTO[] = haeuser;
+
+    //     expect(haeuserArray).toHaveLength(1);
+
+    //     const [haus] = haeuserArray;
+    //     const { isbn, titel } = haus!;
+
+    //     expect(isbn).toBe(isbnVorhanden);
+    //     expect(titel?.titel).toBeDefined();
+    // });
+
+    test('Haeuser zu vorhandenem "preis"', async () => {
         // given
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
-                        isbn: "${isbnVorhanden}"
-                    }) {
-                        isbn
-                        titel {
-                            titel
-                        }
-                    }
-                }
-            `,
-        };
-
-        // when
-        const { status, headers, data }: AxiosResponse<GraphQLResponseBody> =
-            await client.post(graphqlPath, body);
-
-        // then
-        expect(status).toBe(HttpStatus.OK);
-        expect(headers['content-type']).toMatch(/json/iu);
-        expect(data.errors).toBeUndefined();
-
-        expect(data.data).toBeDefined();
-
-        const { buecher } = data.data!;
-
-        expect(buecher).not.toHaveLength(0);
-
-        const buecherArray: HausDTO[] = buecher;
-
-        expect(buecherArray).toHaveLength(1);
-
-        const [haus] = buecherArray;
-        const { isbn, titel } = haus!;
-
-        expect(isbn).toBe(isbnVorhanden);
-        expect(titel?.titel).toBeDefined();
-    });
-
-    test('Haeuser zu vorhandenem "rating"', async () => {
-        // given
-        const body: GraphQLRequest = {
-            query: `
-                {
-                    buecher(suchkriterien: {
-                        rating: ${ratingVorhanden},
-                        titel: "${teilTitelVorhanden}"
+                    haeuser(suchkriterien: {
+                        preis: ${preisVorhanden},
+                        strasse: "${teilStrasseVorhanden}"
                     }) {
                         rating
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -342,32 +341,32 @@ describe('GraphQL Queries', () => {
 
         expect(data.data).toBeDefined();
 
-        const { buecher } = data.data!;
+        const { haeuser } = data.data!;
 
-        expect(buecher).not.toHaveLength(0);
+        expect(haeuser).not.toHaveLength(0);
 
-        const buecherArray: HausDTO[] = buecher;
+        const haeuserArray: HausDTO[] = haeuser;
 
-        buecherArray.forEach((haus) => {
-            const { rating, titel } = haus;
+        haeuserArray.forEach((haus) => {
+            const { preis, adresse } = haus;
 
-            expect(rating).toBe(ratingVorhanden);
-            expect(titel?.titel.toLowerCase()).toEqual(
-                expect.stringContaining(teilTitelVorhanden),
+            expect(preis).toBe(preisVorhanden);
+            expect(adresse?.strasse.toLowerCase()).toEqual(
+                expect.stringContaining(teilStrasseVorhanden),
             );
         });
     });
 
-    test('Kein Haus zu nicht-vorhandenem "rating"', async () => {
+    test('Kein Haus zu nicht-vorhandenem "preis"', async () => {
         // given
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
-                        rating: ${ratingNichtVorhanden}
+                    haeuser(suchkriterien: {
+                        preis: ${preisNichtVorhanden}
                     }) {
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -381,7 +380,7 @@ describe('GraphQL Queries', () => {
         // then
         expect(status).toBe(HttpStatus.OK);
         expect(headers['content-type']).toMatch(/json/iu);
-        expect(data.data!.buecher).toBeNull();
+        expect(data.data!.haeuser).toBeNull();
 
         const { errors } = data;
 
@@ -392,23 +391,23 @@ describe('GraphQL Queries', () => {
 
         expect(message).toMatch(/^Keine Haeuser gefunden:/u);
         expect(path).toBeDefined();
-        expect(path![0]).toBe('buecher');
+        expect(path![0]).toBe('haeuser');
         expect(extensions).toBeDefined();
         expect(extensions!.code).toBe('BAD_USER_INPUT');
     });
 
-    test('Haeuser zur Art "KINDLE"', async () => {
+    test('Haeuser zur Art "REIHENHAUS"', async () => {
         // given
-        const hausArt: HausArt = 'KINDLE';
+        const hausArt: HausArt = 'REIHENHAUS';
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
+                    haeuser(suchkriterien: {
                         art: ${hausArt}
                     }) {
                         art
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -426,17 +425,17 @@ describe('GraphQL Queries', () => {
 
         expect(data.data).toBeDefined();
 
-        const { buecher } = data.data!;
+        const { haeuser } = data.data!;
 
-        expect(buecher).not.toHaveLength(0);
+        expect(haeuser).not.toHaveLength(0);
 
-        const buecherArray: HausDTO[] = buecher;
+        const haeuserArray: HausDTO[] = haeuser;
 
-        buecherArray.forEach((haus) => {
-            const { art, titel } = haus;
+        haeuserArray.forEach((haus) => {
+            const { art, adresse } = haus;
 
             expect(art).toBe(hausArt);
-            expect(titel?.titel).toBeDefined();
+            expect(adresse?.strasse).toBeDefined();
         });
     });
 
@@ -446,11 +445,11 @@ describe('GraphQL Queries', () => {
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
+                    haeuser(suchkriterien: {
                         art: ${hausArt}
                     }) {
-                        titel {
-                            titel
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -477,17 +476,17 @@ describe('GraphQL Queries', () => {
         expect(extensions!.code).toBe('GRAPHQL_VALIDATION_FAILED');
     });
 
-    test('Haeuser mit lieferbar=true', async () => {
+    test('Haeuser mit verkaeuflich=true', async () => {
         // given
         const body: GraphQLRequest = {
             query: `
                 {
-                    buecher(suchkriterien: {
-                        lieferbar: true
+                    haeuser(suchkriterien: {
+                        verkaeuflich: true
                     }) {
-                        lieferbar
-                        titel {
-                            titel
+                        verkaeuflich
+                        adresse {
+                            strasse
                         }
                     }
                 }
@@ -505,17 +504,17 @@ describe('GraphQL Queries', () => {
 
         expect(data.data).toBeDefined();
 
-        const { buecher } = data.data!;
+        const { haeuser } = data.data!;
 
-        expect(buecher).not.toHaveLength(0);
+        expect(haeuser).not.toHaveLength(0);
 
-        const buecherArray: HausDTO[] = buecher;
+        const haeuserArray: HausDTO[] = haeuser;
 
-        buecherArray.forEach((haus) => {
-            const { lieferbar, titel } = haus;
+        haeuserArray.forEach((haus) => {
+            const { verkaeuflich, adresse } = haus;
 
-            expect(lieferbar).toBe(true);
-            expect(titel?.titel).toBeDefined();
+            expect(verkaeuflich).toBe(true);
+            expect(adresse?.strasse).toBeDefined();
         });
     });
 });

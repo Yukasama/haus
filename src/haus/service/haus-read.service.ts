@@ -5,7 +5,6 @@ import { type Suchkriterien } from './suchkriterien.js';
 import { getLogger } from '../../logger/logger.js';
 
 export interface FindByIdParams {
-
     readonly id: number;
 
     readonly mitPersonen?: boolean;
@@ -47,10 +46,7 @@ export class HausReadService {
                 haus.adresse,
             );
             if (mitPersonen) {
-                this.#logger.debug(
-                    'findById: Personen=%o',
-                    haus.personen,
-                );
+                this.#logger.debug('findById: Personen=%o', haus.personen);
             }
         }
         return haus;

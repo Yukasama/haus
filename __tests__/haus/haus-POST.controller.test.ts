@@ -24,9 +24,9 @@ import {
     shutdownServer,
     startServer,
 } from '../testserver.js';
+import { type ErrorResponse } from './error-response.js';
 import { type HausDTO } from '../../src/haus/rest/hausDTO.entity.js';
 import { HausReadService } from '../../src/haus/service/haus-read.service.js';
-import { type ErrorResponse } from './error-response.js';
 import { HttpStatus } from '@nestjs/common';
 import { loginRest } from '../login.js';
 
@@ -36,10 +36,10 @@ import { loginRest } from '../login.js';
 const neuesHaus: HausDTO = {
     hausflaeche: 600,
     art: 'REIHENHAUS',
-    preis: 250000.0,
+    preis: 2500,
     verkaeuflich: true,
-    baudatum: '2022-02-28',
-    katalog: 'https://post.rest',
+    baudatum: '2021-02-28',
+    katalog: 'https://haus.rest',
     features: ['WAERMEPUMPE'],
     adresse: {
         strasse: 'Strasse',
@@ -55,34 +55,34 @@ const neuesHaus: HausDTO = {
     ],
 };
 const neuesHausInvalid: Record<string, unknown> = {
-    isbn: 'falsche-ISBN',
-    rating: -1,
-    art: 'UNSICHTBAR',
-    preis: -1,
-    rabatt: 2,
-    lieferbar: true,
-    datum: '12345-123-123',
-    katalog: 'anyHomepage',
-    titel: {
-        titel: '?!',
-        untertitel: 'Untertitelinvalid',
+    hausflaeche: -600,
+    art: 'REIHENHAU',
+    preis: -2500,
+    verkaeuflich: 'true',
+    baudatum: '2022-02-28',
+    katalog: 'https://post.rest',
+    features: ['WAERMEPUMPE'],
+    adresse: {
+        strasse: 'Strasse',
+        hausnummer: '1',
+        plz: 7613,
     },
 };
+// TODO
 const neuesHausIsbnExistiert: HausDTO = {
-    isbn: '978-3-897-22583-1',
-    rating: 1,
-    art: 'DRUCKAUSGABE',
-    preis: 99.99,
-    rabatt: 0.099,
-    lieferbar: true,
-    datum: '2022-02-28',
-    katalog: 'https://post.isbn/',
-    features: ['JAVASCRIPT', 'TYPESCRIPT'],
-    titel: {
-        titel: 'Titelpostisbn',
-        untertitel: 'Untertitelpostisbn',
+    hausflaeche: -600,
+    art: 'REIHENHAUS',
+    preis: -2500,
+    verkaeuflich: true,
+    baudatum: '2022-02-28',
+    katalog: 'https://post.rest',
+    features: ['WAERMEPUMPE'],
+    adresse: {
+        strasse: 'Strasse',
+        hausnummer: '1',
+        plz: '76133',
     },
-    abbildungen: undefined,
+    personen: undefined,
 };
 
 // -----------------------------------------------------------------------------
@@ -150,14 +150,11 @@ describe('POST /rest', () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         const expectedMsg = [
-            expect.stringMatching(/^isbn /u),
-            expect.stringMatching(/^rating /u),
+            expect.stringMatching(/^hausflaeche /u),
             expect.stringMatching(/^art /u),
             expect.stringMatching(/^preis /u),
-            expect.stringMatching(/^rabatt /u),
-            expect.stringMatching(/^datum /u),
-            expect.stringMatching(/^katalog /u),
-            expect.stringMatching(/^titel.titel /u),
+            expect.stringMatching(/^verkaeuflich /u),
+            expect.stringMatching(/^adresse.plz /u),
         ];
 
         // when
@@ -180,6 +177,7 @@ describe('POST /rest', () => {
         expect(messages).toEqual(expect.arrayContaining(expectedMsg));
     });
 
+    // TODO
     test('Neues Haus, aber die ISBN existiert bereits', async () => {
         // given
         const token = await loginRest(client);
