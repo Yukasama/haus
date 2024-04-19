@@ -107,11 +107,11 @@ describe('GraphQL Mutations', () => {
                 mutation {
                   create(
                     input: {
-                        hausflaeche: 450,
-                        art: BUNGALO,
-                        preis: 420000,
-                        verkaeuflich: "true",
-                        baudatum: "2023/02-28",
+                        hausflaeche: -450,
+                        art: BUNGALOW,
+                        preis: -420000,
+                        verkaeuflich: true,
+                        baudatum: "20233-02-28",
                         katalog: "https://haus.de",
                         features: ["WAERMEPUMPE", "SMART-TV"],
                         adresse: {
@@ -132,8 +132,9 @@ describe('GraphQL Mutations', () => {
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^art /u),
-            expect.stringMatching(/^verkaeuflich /u),
+            expect.stringMatching(/^hausflaeche /u),
+            expect.stringMatching(/^hausflaeche /u),
+            expect.stringMatching(/^preis /u),
             expect.stringMatching(/^baudatum /u),
         ];
 
@@ -217,11 +218,11 @@ describe('GraphQL Mutations', () => {
                         input: {
                             id: "${id}",
                             version: 0,
-                            hausflaeche: 450,
-                            art: BUNGALO,
+                            hausflaeche: -450,
+                            art: BUNGALOW,
                             preis: -420000.00,
-                            verkaeuflich: "true",
-                            baudatum: "2025/02-28",
+                            verkaeuflich: true,
+                            baudatum: "20211-02-28",
                             katalog: "https://haus.de",
                             features: ["WAERMEPUMPE"],
                         }
@@ -232,9 +233,9 @@ describe('GraphQL Mutations', () => {
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^art /u),
+            expect.stringMatching(/^hausflaeche /u),
+            expect.stringMatching(/^hausflaeche /u),
             expect.stringMatching(/^preis /u),
-            expect.stringMatching(/^verkaeuflich /u),
             expect.stringMatching(/^baudatum /u),
         ];
 

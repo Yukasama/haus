@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import {
     ArrayUnique,
     IsArray,
@@ -16,7 +17,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { type HausArt } from '../entity/haus.entity.js';
 import { AdresseDTO } from './adresseDTO.entity.js';
 import { Type } from 'class-transformer';
-//BUNGALOW' | 'MEHRFAMILIENHAUS' | 'REIHENHAUS' | 'VILLA'
+// BUNGALOW' | 'MEHRFAMILIENHAUS' | 'REIHENHAUS' | 'VILLA'
 export class HausDtoOhneRef {
     @Matches(/^BUNGALOW$|^MEHRFAMILIENHAUS$|^REIHENHAUS$|^VILLA/u)
     @IsOptional()
