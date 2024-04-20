@@ -107,7 +107,7 @@ export class QueryBuilder {
 
         Object.keys(props).forEach((key) => {
             const param: Record<string, any> = {};
-            param[key] = (props as Record<string, any>)[key];
+            param[key] = (props as Record<string, any>)[key]; // eslint-disable-line @typescript-eslint/no-unsafe-assignment, security/detect-object-injection
             queryBuilder = useWhere
                 ? queryBuilder.where(
                       `${this.#hausAlias}.${key} = :${key}`,
