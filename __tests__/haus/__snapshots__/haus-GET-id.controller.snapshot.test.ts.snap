@@ -1,4 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-// TODO: fix url
-exports[`GET /rest/:id Haus zu vorhandener ID 1`] = `"https://christophers-macbook-pro.fritz.box:3000/rest/1"`;

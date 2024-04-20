@@ -30,6 +30,10 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+__tests__/haus/__snapshots__/*
+
+# DB
+src/config/resources/db/sqlite/haus.sqlite
 
 # IDEs and editors
 /.idea
