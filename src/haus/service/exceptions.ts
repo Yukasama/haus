@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class VersionInvalidException extends HttpException {

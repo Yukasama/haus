@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
     type KeycloakConnectOptions,
     type KeycloakConnectOptionsFactory,
@@ -117,4 +119,5 @@ export class KeycloakService implements KeycloakConnectOptionsFactory {
         this.#logger.debug('#logPayload: roles=%o', roles);
     }
 }
-/* eslint-enable camelcase, @typescript-eslint/naming-convention */
+/* eslint-enable camelcase */
+/* eslint-enable @typescript-eslint/naming-convention */

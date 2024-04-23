@@ -24,7 +24,6 @@ import {
     shutdownServer,
     startServer,
 } from '../testserver.js';
-// import { type ErrorResponse } from './error-response.js';
 import { type HausDTO } from '../../src/haus/rest/hausDTO.entity.js';
 import { HausReadService } from '../../src/haus/service/haus-read.service.js';
 import { HttpStatus } from '@nestjs/common';
@@ -68,21 +67,6 @@ const neuesHausInvalid: Record<string, unknown> = {
         plz: '76138',
     },
 };
-// const neuesHausIsbnExistiert: HausDTO = {
-//     hausflaeche: -600,
-//     art: 'REIHENHAUS',
-//     preis: -2500,
-//     verkaeuflich: true,
-//     baudatum: '2022-02-28',
-//     katalog: 'https://post.rest',
-//     features: ['WAERMEPUMPE'],
-//     adresse: {
-//         strasse: 'Strasse',
-//         hausnummer: '1',
-//         plz: '76133',
-//     },
-//     personen: undefined,
-// };
 
 // -----------------------------------------------------------------------------
 // T e s t s
@@ -175,28 +159,6 @@ describe('POST /rest', () => {
         expect(messages).toHaveLength(expectedMsg.length);
         expect(messages).toEqual(expect.arrayContaining(expectedMsg));
     });
-
-    // TODO
-    // test('Neues Haus, aber die ISBN existiert bereits', async () => {
-    //     // given
-    //     const token = await loginRest(client);
-    //     headers.Authorization = `Bearer ${token}`;
-
-    //     // when
-    //     const response: AxiosResponse<ErrorResponse> = await client.post(
-    //         '/rest',
-    //         neuesHausIsbnExistiert,
-    //         { headers },
-    //     );
-
-    //     // then
-    //     const { data } = response;
-
-    //     const { message, statusCode } = data;
-
-    //     expect(message).toEqual(expect.stringContaining('ISBN'));
-    //     expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-    // });
 
     test('Neues Haus, aber ohne Token', async () => {
         // when

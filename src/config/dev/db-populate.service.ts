@@ -164,6 +164,7 @@ export class DbPopulateService implements OnApplicationBootstrap {
             `SET search_path TO ${adminDataSourceOptions!.database};`,
         );
         const copyStmt =
+            // eslint-disable-next-line @stylistic/quotes
             "COPY %TABELLE% FROM '/csv/%TABELLE%.csv' (FORMAT csv, DELIMITER ';', HEADER true);";
         for (const tabelle of this.#tabellen) {
             // eslint-disable-next-line unicorn/prefer-string-replace-all
@@ -188,8 +189,11 @@ export class DbPopulateService implements OnApplicationBootstrap {
             `USE ${adminDataSourceOptions!.database};`,
         );
         const copyStmt =
+            // eslint-disable-next-line @stylistic/quotes
             "LOAD DATA INFILE '/var/lib/mysql-files/%TABELLE%.csv' " +
+            // eslint-disable-next-line @stylistic/quotes
             "INTO TABLE %TABELLE% FIELDS TERMINATED BY ';' " +
+            // eslint-disable-next-line @stylistic/quotes
             "ENCLOSED BY '\"' LINES TERMINATED BY '\\n' IGNORE 1 ROWS;";
         for (const tabelle of this.#tabellen) {
             // eslint-disable-next-line unicorn/prefer-string-replace-all
@@ -254,4 +258,3 @@ export class DbPopulateService implements OnApplicationBootstrap {
         await this.#datasource.query(singleLine);
     }
 }
-/* eslint-enable @stylistic/quotes */

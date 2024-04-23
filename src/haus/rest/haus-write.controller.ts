@@ -76,6 +76,7 @@ export class HausWriteController {
         return res.location(location).send();
     }
 
+    // eslint-disable-next-line max-params
     @Put(':id')
     @Roles({ roles: ['admin', 'user'] })
     @HttpCode(HttpStatus.NO_CONTENT)

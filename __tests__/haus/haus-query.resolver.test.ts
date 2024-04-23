@@ -33,8 +33,6 @@ const strasseVorhanden = 'Moltkestrasse';
 const teilStrasseVorhanden = 'a';
 const teilStrasseNichtVorhanden = 'abc';
 
-// const isbnVorhanden = '978-3-897-22583-1';
-
 const preisVorhanden = 350_000;
 const preisNichtVorhanden = 123_456;
 
@@ -259,50 +257,6 @@ describe('GraphQL Queries', () => {
         expect(extensions).toBeDefined();
         expect(extensions!.code).toBe('BAD_USER_INPUT');
     });
-
-    // TODO
-    // test('Haus zu vorhandener ISBN-Nummer', async () => {
-    //     // given
-    //     const body: GraphQLRequest = {
-    //         query: `
-    //             {
-    //                 haeuser(suchkriterien: {
-    //                     isbn: "${isbnVorhanden}"
-    //                 }) {
-    //                     isbn
-    //                     titel {
-    //                         titel
-    //                     }
-    //                 }
-    //             }
-    //         `,
-    //     };
-
-    //     // when
-    //     const { status, headers, data }: AxiosResponse<GraphQLResponseBody> =
-    //         await client.post(graphqlPath, body);
-
-    //     // then
-    //     expect(status).toBe(HttpStatus.OK);
-    //     expect(headers['content-type']).toMatch(/json/iu);
-    //     expect(data.errors).toBeUndefined();
-
-    //     expect(data.data).toBeDefined();
-
-    //     const { haeuser } = data.data!;
-
-    //     expect(haeuser).not.toHaveLength(0);
-
-    //     const haeuserArray: HausDTO[] = haeuser;
-
-    //     expect(haeuserArray).toHaveLength(1);
-
-    //     const [haus] = haeuserArray;
-    //     const { isbn, titel } = haus!;
-
-    //     expect(isbn).toBe(isbnVorhanden);
-    //     expect(titel?.titel).toBeDefined();
-    // });
 
     test('Haeuser zu vorhandenem "preis"', async () => {
         // given

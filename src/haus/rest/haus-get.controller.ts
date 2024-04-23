@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import {
     ApiHeader,
     ApiNotFoundResponse,
@@ -110,6 +111,7 @@ export class HausGetController {
         this.#service = service;
     }
 
+    // eslint-disable-next-line max-params
     @Get(':id')
     @Public()
     @ApiOperation({ summary: 'Suche mit der Haus-ID' })

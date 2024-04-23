@@ -6,7 +6,7 @@ import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.
 import { Haus } from '../entity/haus.entity.js';
 import { HausReadService } from '../service/haus-read.service.js';
 import { HttpExceptionFilter } from './http-exception.filter.js';
-import { type Suchkriterien } from './suchkriterien';
+import { type Suchkriterien } from '../service/suchkriterien.js';
 
 export interface IdInput {
     readonly id: number;
