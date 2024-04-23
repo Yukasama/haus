@@ -1,0 +1,72 @@
+@startuml Komponenten
+
+left to right direction
+
+actor RESTClient
+actor GraphQLClient
+
+node "Nest" {
+  [RequestLoggerMiddleware]
+
+  [HausController]
+  [HausResolver]
+
+  [HausService]
+
+  [Repository<Haus>]
+
+  [MailService]
+}
+
+
+cloud {
+    [TypeORM]
+}
+
+cloud {
+    [nest-keycloak-connect]
+}
+
+cloud {
+    [nodemailer]
+}
+
+database "DB haus" {
+    [Tabelle haus]
+    [Tabelle adresse]
+    [Tabelle person]
+}
+
+node {
+    [Keycloak]
+}
+
+node {
+    [Mailserver]
+}
+
+RESTClient ~~> [RequestLoggerMiddleware]
+GraphQLClient ~~> [RequestLoggerMiddleware]
+
+[RequestLoggerMiddleware] ~~> [HausController]
+[RequestLoggerMiddleware] ~~> [HausResolver]
+
+[HausController] ..> [HausService]
+[HausResolver] ..> [HausService]
+[HausService] ..> [Repository<Haus>]
+
+[Repository<Haus>] ~~> [TypeORM]
+[TypeORM] ~~> [Tabelle haus]
+[TypeORM] ~~> [Tabelle adresse]
+[TypeORM] ~~> [Tabelle person]
+
+[HausController] ..> [nest-keycloak-connect]
+[nest-keycloak-connect] ~~> [Keycloak]
+
+[HausService] ..> [MailService]
+[MailService] ~~> [nodemailer]
+[nodemailer] ~~> [Mailserver]
+
+[MailService] ~[hidden]~> [nest-keycloak-connect]
+
+@enduml

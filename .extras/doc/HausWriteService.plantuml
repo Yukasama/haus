@@ -1,0 +1,65 @@
+@startuml Anwendungskern
+
+interface Promise<T>
+
+package @nestjs/common {
+  class "@Injectable" as Injectable
+  hide Injectable circle
+}
+
+package typeorm {
+  class Repository<T>
+}
+
+package @nestjs/typeorm {
+  class "@InjectRepository" as InjectRepository
+  hide InjectRepository circle
+}
+
+package mail {
+  class MailService
+}
+
+package haus {
+  package entity {
+    class Haus
+  }
+
+  package service #DDDDDD {
+    class HausInvalid
+    class AdresseExists
+    class VersionInvalid
+    class VersionOutdated
+
+    class HausWriteService << control >> <<@Injectable()>> {
+      + async create(haus: Haus): Promise<string|HausInvalid|AdresseExists>
+      + async update(id: number, haus: Haus, version: string): Promise<number|HausInvalid|VersionInvalid|VersionOutdated>
+      + async delete(id: number): Promise<boolean>
+    }
+
+    HausWriteService o--> "1" HausValidationService: validationService
+    HausWriteService o--> "1" HausReadService: readService
+    HausWriteService o--> "1" Repository: @InjectRepository repo
+    HausWriteService o--> "1" MailService: mailService
+
+    HausWriteService .up.> Injectable
+    HausWriteService .up.> InjectRepository
+
+    HausWriteService .up.> Promise
+    HausWriteService ..> Haus
+    HausWriteService .up.> HausInvalid
+    HausWriteService .up.> VersionInvalid
+    HausWriteService .up.> VersionOutdated
+
+    HausInvalid .up[hidden].> Haus
+    Haus .up[hidden].> Promise
+    Haus .up[hidden].> Injectable
+    Haus .up[hidden].> InjectRepository
+    HausValidationService .[hidden].> Repository
+    HausValidationService .[hidden].> MailService
+  }
+}
+
+hide empty members
+
+@enduml
