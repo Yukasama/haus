@@ -40,19 +40,19 @@ package haus.entity {
   class Adresse <<entity>> <<@Entity>> {
     @Column() @PrimaryColumn() readonly id: number
     @Column() readonly strasse: string
-    @Column() readonly hausnummer?: number
-    @Column() readonly plz?: string
+    @Column() readonly hausnummer: number
+    @Column() readonly plz: string
   }
 
-  class Abbildung <<entity>> <<@Entity>> {
+  class Personen <<entity>> <<@Entity>> {
     @Column() @PrimaryColumn() readonly id: number
     @Column() readonly vorname: string
-    @Column() readonly nachname?: string
-    @Column() readonly eigentuemer?: boolean
+    @Column() readonly nachname: string
+    @Column() readonly eigentuemer: boolean
   }
 
   Haus *--> "1" Adresse : @OneToOne() \nadresse
-  Haus *--> "*" Person : @OneToMany() \npersonen
+  Haus *--> "*" Personen : @OneToMany() \nPersonen
 
   Haus .right.> Entity
   Haus .right.> HausArt

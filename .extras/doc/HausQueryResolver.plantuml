@@ -1,0 +1,60 @@
+@startuml Controller-Klasse
+
+interface Promise<T>
+
+package @nestjs/graphql {
+  class "@Resolver" as Resolver
+  hide Resolver circle
+
+  class "@UseInterceptors" as UseInterceptors
+  hide UseInterceptors circle
+
+  class "@Query" as Query
+  hide Query circle
+
+  class "@Args" as Args
+  hide Args circle
+
+  Resolver .left[hidden].> Promise
+}
+
+package haus {
+  package entity {
+    class Haus <<entity>>
+  }
+
+  package service {
+    class HausReadService << control >>
+  }
+
+  package graphql #DDDDDD {
+    class "type HausDTO = Omit<Haus, 'personen' | 'aktualisiert' | 'erzeugt'" as HausDTO
+    hide HausDTO circle
+
+    interface IdInput {
+        id: number
+    }
+
+    class HausQueryResolver << control >> << @Resolver() >> << @UseInterceptors() >> {
+      + @Query() async haus(@Args() id: IdInput): Promise<HausDTO>
+    }
+
+    HausQueryResolver o-up-> "1" HausReadService : service
+    HausQueryResolver ..> HausDTO
+    HausQueryResolver ..> IdInput
+    HausDTO ..> Haus
+    HausQueryResolver ..> Resolver
+
+    HausQueryResolver ..> Promise
+
+    HausDTO .[hidden].> Haus
+    Haus .[hidden].> Promise
+    HausReadService .[hidden].> Promise
+    Haus .[hidden].> Resolver
+    HausReadService .[hidden].> Resolver
+  }
+}
+
+hide empty members
+
+@enduml

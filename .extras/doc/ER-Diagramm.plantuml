@@ -1,0 +1,45 @@
+@startuml ER Diagramm
+
+' hide the spot
+hide circle
+
+' evtl. Prbleme mit Kraehenfuessen vermeiden
+skinparam linetype ortho
+
+entity "Haus" {
+  * id: integer <<generated>>
+  --
+  * version: integer
+  * hausflaeche: number
+  * art: text
+  * preis: number
+  * verkaeuflich: boolean
+    baudatum: date
+    katalog: text
+  * **adresse_id**: integer <<FK>>
+    feature: text
+  * erzeugt: timestamp
+  * aktualisiert: timestamp
+}
+
+entity "Adresse" {
+  * id: integer <<generated>>
+  --
+  * strasse: text
+    hausnummer: number
+    plz: test
+}
+
+entity "Person" {
+  * id: integer <<generated>>
+  --
+  * vorname: text
+    nachname: text
+    eigentuemer: boolean
+  * **haus_id**: integer <<FK>>
+}
+
+Haus ||..|| Adresse
+Haus ||..o{ Person
+
+@enduml

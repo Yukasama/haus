@@ -1,0 +1,13 @@
+@startuml Sequenzdiagramm
+
+actor Gast
+
+boundary HausGetController
+control HausReadService
+database haus
+
+Gast -> HausGetController : GET / getById()
+HausGetController -> HausReadService: findById()
+HausReadService -> haus: [TypeORM]
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml Use Cases
+
+actor Gast
+actor Admin
+actor Kunde
+
+rectangle haus {
+    Gast --> (Haus suchen)
+    Admin --> (Haus suchen)
+    Admin --> (Haus anlegen)
+    Admin --> (Haus ändern)
+    Admin --> (Haus löschen)
+    Kunde --> (Haus suchen)
+    Kunde --> (Haus anlegen)
+    Kunde --> (Haus ändern)
+}
+
+@enduml
