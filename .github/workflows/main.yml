@@ -2,9 +2,9 @@ name: Haus CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   build:
@@ -13,27 +13,27 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - uses: actions/checkout@v3
 
-    - name: Install dependencies
-    - run: npm ci --no-fund --no-audit
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-    - name: Run build
-    - run: npm run build --if-present
+      - name: Install dependencies
+        run: npm ci --no-fund --no-audit
 
-    - name: Run tests
-    - run: npm t
+      - name: Run build
+        run: npm run build --if-present
 
-    - name: Run eslint
-    - run: npm run eslint
+      - name: Run tests
+        run: npm t
 
-    - name: Run audit
-    - run: npm audit --omit=dev
+      - name: Run eslint
+        run: npm run eslint
+
+      - name: Run audit
+        run: npm audit --omit=dev
