@@ -1,8 +1,5 @@
 = Projekthandbuch
-Hung Son Bui <buhu1012@h-ka.de>
-Franziska Kraus <krfr????@h-ka.de>
-Anselm Böhm <boan1033@h-ka.de>
-Christopher Claus <clch1011@h-ka.de>
+Hung Son Bui <buhu1012@h-ka.de>, Franziska Kraus <krfr????@h-ka.de>, Anselm Boehm <boan1033@h-ka.de>, Christopher Claus <clch1011@h-ka.de>
 :doctype: book
 :toc: left
 :sectanchors:
