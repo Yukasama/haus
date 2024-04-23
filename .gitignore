@@ -57,6 +57,9 @@ src/config/resources/db/sqlite/haus.sqlite
 .env.production.local
 .env.local
 
+# db
+src/config/resources/db/sqlite/haus.sqlite
+
 # temp directory
 .temp
 .tmp
