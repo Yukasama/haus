@@ -9,14 +9,11 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: 20.x
           cache: 'npm'
 
       - name: Install dependencies
@@ -29,25 +26,16 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
+      - name: Install ESLint
+        run: npm install eslint@8.57.0
+
       - name: Run eslint
-        run: npm run eslint
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx
 
   audit:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
       - name: Run audit
         run: npm audit --omit=dev
 
@@ -55,11 +43,5 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
       - name: Run tests
         run: echo "Tests successfully passed"
