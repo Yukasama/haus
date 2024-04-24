@@ -10,9 +10,6 @@ jobs:
   setup:
     runs-on: ubuntu-latest
 
-    outputs:
-      cache-key: ${{ steps.cache-npm.outputs.key }}
-
     steps:
       - uses: actions/checkout@v4
 
@@ -25,22 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-fund --no-audit
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: npm list
-
       - name: Run build
         run: npm run build --if-present
 
@@ -49,13 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
-
       - name: Run eslint
         run: npm run eslint
 
@@ -64,19 +43,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
-
-      - name: Restore node modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
-
       - name: Run audit
         run: npm audit --omit=dev
 
@@ -85,18 +56,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
-
-      - name: Restore node modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
-
       - name: Run tests
         run: echo "Tests successfully passed"
