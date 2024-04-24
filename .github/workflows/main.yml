@@ -60,7 +60,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ needs.setup.outputs.cache-key }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ needs.setup.outputs.cache-key }}
 
       - name: Run eslint
         run: npm run eslint
@@ -81,7 +81,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ needs.setup.outputs.cache-key }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ needs.setup.outputs.cache-key }}
 
       - name: Run audit
         run: npm audit --omit=dev
@@ -102,7 +102,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ needs.setup.outputs.cache-key }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ needs.setup.outputs.cache-key }}
 
       - name: Run tests
         run: echo "Tests successfully passed"
