@@ -1,3 +1,8 @@
+/**
+ * Das Modul besteht aus der Klasse {@linkcode QueryBuilder}.
+ * @packageDocumentation
+ */
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,12 +13,17 @@ import { Haus } from '../entity/haus.entity.js';
 import { Person } from '../entity/person.entity.js';
 import { type Suchkriterien } from './suchkriterien.js';
 
+/** Typdefinitionen für die Suche mit der Haus-ID. */
 export interface BuildIdParams {
+    /** ID des gesuchten Hauses. */
     readonly id: number;
-
+    /** Sollen die Personen mitgeladen werden? */
     readonly mitPersonen?: boolean;
 }
-
+/**
+ * Die Klasse `QueryBuilder` implementiert das Lesen für Haeuser und greift
+ * mit _TypeORM_ auf eine relationale DB zu.
+ */
 @Injectable()
 export class QueryBuilder {
     readonly #hausAlias = `${Haus.name
@@ -36,6 +46,11 @@ export class QueryBuilder {
         this.#repo = repo;
     }
 
+    /**
+     * Ein Haus mit der ID suchen.
+     * @param id ID des gesuchten Hauses
+     * @returns QueryBuilder
+     */
     buildId({ id, mitPersonen = false }: BuildIdParams) {
         const queryBuilder = this.#repo.createQueryBuilder(this.#hausAlias);
 
@@ -55,6 +70,11 @@ export class QueryBuilder {
         return queryBuilder;
     }
 
+    /**
+     * Haeuser asynchron suchen.
+     * @param suchkriterien JSON-Objekt mit Suchkriterien
+     * @returns QueryBuilder
+     */
     // eslint-disable-next-line max-lines-per-function
     build({ strasse, waermepumpe, pool, ...props }: Suchkriterien) {
         this.#logger.debug(

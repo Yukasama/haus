@@ -1,6 +1,9 @@
 // eslint-disable-next-line max-classes-per-file
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+/**
+ * Exception-Klasse für eine ungültige Versionsnummer beim Ändern.
+ */
 export class VersionInvalidException extends HttpException {
     constructor(readonly version: string | undefined) {
         super(
@@ -10,6 +13,9 @@ export class VersionInvalidException extends HttpException {
     }
 }
 
+/**
+ * Exception-Klasse für eine veraltete Versionsnummer beim Ändern.
+ */
 export class VersionOutdatedException extends HttpException {
     constructor(readonly version: number) {
         super(

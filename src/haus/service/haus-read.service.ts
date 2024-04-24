@@ -1,15 +1,28 @@
+/**
+ * Das Modul besteht aus der Klasse {@linkcode HausReadService}.
+ * @packageDocumentation
+ */
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Haus } from './../entity/haus.entity.js';
 import { QueryBuilder } from './query-builder.js';
 import { type Suchkriterien } from './suchkriterien.js';
 import { getLogger } from '../../logger/logger.js';
 
+/**
+ * Typdefinition für `findById`
+ */
 export interface FindByIdParams {
+    /** ID des gesuchten Hauses */
     readonly id: number;
-
+    /** Sollen die Personen mitgeladen werden? */
     readonly mitPersonen?: boolean;
 }
 
+/**
+ * Die Klasse `HausReadService` implementiert das Lesen für Haeuser und greift
+ * mit _TypeORM_ auf eine relationale DB zu.
+ */
 @Injectable()
 export class HausReadService {
     static readonly ID_PATTERN = /^[1-9]\d{0,10}$/u;
@@ -26,6 +39,13 @@ export class HausReadService {
         this.#queryBuilder = queryBuilder;
     }
 
+    /**
+     * Ein Haus asynchron anhand seiner ID suchen
+     * @param id ID des gesuchten Hauses
+     * @returns Das gefundene Haus vom Typ [Haus](haus_entity_haus_entity.Haus.html)
+     *          in einem Promise aus ES2015.
+     * @throws NotFoundException falls kein Haus mit der ID existiert
+     */
     async findById({ id, mitPersonen = false }: FindByIdParams) {
         this.#logger.debug('findById: id=%d', id);
 
@@ -52,6 +72,12 @@ export class HausReadService {
         return haus;
     }
 
+    /**
+     * Haeuser asynchron suchen.
+     * @param suchkriterien JSON-Objekt mit Suchkriterien
+     * @returns Ein JSON-Array mit den gefundenen Haeusern.
+     * @throws NotFoundException falls keine Haeuser gefunden wurden.
+     */
     async find(suchkriterien?: Suchkriterien) {
         this.#logger.debug('find: suchkriterien=%o', suchkriterien);
 

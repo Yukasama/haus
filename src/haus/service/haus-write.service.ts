@@ -1,3 +1,9 @@
+/**
+ * Das Modul besteht aus der Klasse {@linkcode HausWriteService} für die
+ * Schreiboperationen im Anwendungskern.
+ * @packageDocumentation
+ */
+
 import { type DeleteResult, Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
@@ -12,14 +18,20 @@ import { MailService } from '../../mail/mail.service.js';
 import { Person } from '../entity/person.entity.js';
 import { getLogger } from '../../logger/logger.js';
 
+/** Typdefinitionen zum Aktualisieren eines Hauses mit `update`. */
 export interface UpdateParams {
+    /** ID des zu aktualisierenden Hauses. */
     readonly id: number | undefined;
-
+    /** Haus-Objekt mit den aktualisierten Werten. */
     readonly haus: Haus;
-
+    /** Versionsnummer für die aktualisierenden Werte. */
     readonly version: string;
 }
 
+/**
+ * Die Klasse `HausWriteService` implementiert den Anwendungskern für das
+ * Schreiben von Haeusern und greift mit _TypeORM_ auf die DB zu.
+ */
 @Injectable()
 export class HausWriteService {
     private static readonly VERSION_PATTERN = /^"\d{1,3}"/u;
@@ -42,6 +54,11 @@ export class HausWriteService {
         this.#mailService = mailService;
     }
 
+    /**
+     * Ein neues Haus soll angelegt werden.
+     * @param haus Das neu abzulegende Haus
+     * @returns Die ID des neu angelegten Hauses
+     */
     async create(haus: Haus): Promise<number> {
         this.#logger.debug('create: haus=%o', haus);
 
@@ -53,6 +70,13 @@ export class HausWriteService {
         return hausDb.id!;
     }
 
+    /**
+     * Ein vorhandenes Haus soll aktualisiert werden.
+     * @returns Die neue Versionsnummer gemäß optimistischer Synchronisation
+     * @throws NotFoundException falls kein Haus zur ID vorhanden ist
+     * @throws VersionInvalidException falls die Versionsnummer ungültig ist
+     * @throws VersionOutdatedException falls die Versionsnummer veraltet ist
+     */
     async update({ id, haus, version }: UpdateParams): Promise<number> {
         this.#logger.debug(
             'update: id=%d, haus=%o, version=%s',
@@ -80,6 +104,12 @@ export class HausWriteService {
         return updated.version!;
     }
 
+    /**
+     * Ein Haus wird asynchron anhand seiner ID gelöscht.
+     *
+     * @param id ID des zu löschenden Hauses
+     * @returns true, falls das Haus vorhanden war und gelöscht wurde. Sonst false.
+     */
     async delete(id: number) {
         this.#logger.debug('delete: id=%d', id);
         const haus = await this.#readService.findById({
