@@ -20,9 +20,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          npm ci --no-fund --no-audit
-          npm i -g eslint
+        env:
+          NODE_ENV: development
+        run: npm ci --no-fund --no-audit
 
       - name: Run build
         run: npm run build --if-present
