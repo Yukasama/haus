@@ -20,7 +20,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --no-fund --no-audit
+        run: |
+          npm ci --no-fund --no-audit
+          npm i -g eslint
 
       - name: Run build
         run: npm run build --if-present
