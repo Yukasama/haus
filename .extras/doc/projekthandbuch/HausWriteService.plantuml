@@ -16,10 +16,6 @@ package @nestjs/typeorm {
   hide InjectRepository circle
 }
 
-package mail {
-  class MailService
-}
-
 package haus {
   package entity {
     class Haus
@@ -39,7 +35,6 @@ package haus {
     HausWriteService o--> "1" HausValidationService: validationService
     HausWriteService o--> "1" HausReadService: readService
     HausWriteService o--> "1" Repository: @InjectRepository repo
-    HausWriteService o--> "1" MailService: mailService
 
     HausWriteService .up.> Injectable
     HausWriteService .up.> InjectRepository
@@ -55,7 +50,6 @@ package haus {
     Haus .up[hidden].> Injectable
     Haus .up[hidden].> InjectRepository
     HausValidationService .[hidden].> Repository
-    HausValidationService .[hidden].> MailService
   }
 }
 

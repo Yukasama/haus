@@ -14,10 +14,7 @@ node "Nest" {
   [HausService]
 
   [Repository<Haus>]
-
-  [MailService]
 }
-
 
 cloud {
     [TypeORM]
@@ -25,10 +22,6 @@ cloud {
 
 cloud {
     [nest-keycloak-connect]
-}
-
-cloud {
-    [nodemailer]
 }
 
 database "DB haus" {
@@ -39,10 +32,6 @@ database "DB haus" {
 
 node {
     [Keycloak]
-}
-
-node {
-    [Mailserver]
 }
 
 RESTClient ~~> [RequestLoggerMiddleware]
@@ -62,11 +51,5 @@ GraphQLClient ~~> [RequestLoggerMiddleware]
 
 [HausController] ..> [nest-keycloak-connect]
 [nest-keycloak-connect] ~~> [Keycloak]
-
-[HausService] ..> [MailService]
-[MailService] ~~> [nodemailer]
-[nodemailer] ~~> [Mailserver]
-
-[MailService] ~[hidden]~> [nest-keycloak-connect]
 
 @enduml
