@@ -14,10 +14,10 @@ entity "Haus" {
   * art: text
   * preis: number
   * verkaeuflich: boolean
-    baudatum: date
-    katalog: text
+  * baudatum: date
+  * katalog: text
   * **adresse_id**: integer <<FK>>
-    feature: text
+  * feature: text
   * erzeugt: timestamp
   * aktualisiert: timestamp
 }
@@ -26,16 +26,16 @@ entity "Adresse" {
   * id: integer <<generated>>
   --
   * strasse: text
-    hausnummer: number
-    plz: test
+  * hausnummer: number
+  * plz: test
 }
 
 entity "Person" {
   * id: integer <<generated>>
   --
   * vorname: text
-    nachname: text
-    eigentuemer: boolean
+  * nachname: text
+  * eigentuemer: boolean
   * **haus_id**: integer <<FK>>
 }
 

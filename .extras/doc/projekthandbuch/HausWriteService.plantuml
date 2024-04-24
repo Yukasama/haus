@@ -27,7 +27,6 @@ package haus {
 
   package service #DDDDDD {
     class HausInvalid
-    class AdresseExists
     class VersionInvalid
     class VersionOutdated
 
