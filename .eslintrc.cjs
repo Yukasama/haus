@@ -47,6 +47,19 @@ module.exports = {
         'jest-formatting',
     ],
 
+    ignores: [
+        '.nyc_output/*',
+        '.vscode/*',
+        'build/*',
+        'coverage/*',
+        'dist/*',
+        'node-ts/*',
+        'scripts/*',
+        'temp/*',
+        'node_modules/*',
+        '.eslintrc.cjs',
+    ],
+
     extends: [
         // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/recommended-type-checked.ts
         // TODO https://github.com/typescript-eslint/typescript-eslint/issues/5908
